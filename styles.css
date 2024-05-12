@@ -1,0 +1,44 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+.title-div, .instructions-div, .start-button-div, .timer-div, .high-score-div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.title-div {
+    padding-top: 15%;
+}
+
+.instructions-div {
+    padding-top: 10px;
+}
+
+.start-button-div {
+    padding-top: 15px;
+}
+
+.high-score-div {
+    padding-top: 5%;
+}
+
+.timer-div {
+    padding-top: 5%;
+}
+
+
+.start-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    font-style: italic;
+    cursor: pointer;
+    outline: none; /* Remove default focus outline */
+}
