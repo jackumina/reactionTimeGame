@@ -1,5 +1,7 @@
 var startTime;
 var timerInterval;
+var elapsedTime = 0;
+var bestScore = 0;
 var started = false;
 
 document.getElementById('start-button').addEventListener('click', function() {
@@ -28,9 +30,6 @@ document.addEventListener('keydown', function(event) {
 
         started = false;
 
-        // // Display the formatted time
-        // updateTimer(elapsedTime);
-
         // Apply white background color to the body
         document.body.style.backgroundColor = "white";
         
@@ -55,13 +54,13 @@ function stopTimer() {
 
     // Calculate elapsed time
     var currentTime = Date.now();
-    var elapsedTime = currentTime - startTime;
+    elapsedTime = currentTime - startTime;
 
     // Display the formatted time
-    updateTimer(elapsedTime);
+    updateTimer();
 }
 
-function updateTimer(elapsedTime) {
+function updateTimer() {
     // Convert milliseconds to minutes, seconds, and milliseconds
     var minutes = Math.floor(elapsedTime / (1000 * 60));
     var seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
@@ -74,4 +73,12 @@ function updateTimer(elapsedTime) {
 
     // Display the formatted time
     document.getElementById('timer').textContent = minutes + ':' + seconds + ':' + milliseconds;
+
+    if(elapsedTime < bestScore || bestScore == 0){
+        bestScore = elapsedTime;
+
+        let multilineString = 'Best Score: ' + '\n' + minutes + ':' + seconds + ':' + milliseconds;
+        multilineString = multilineString.replace(/\n/g, "<br>");
+        document.getElementById("high-score").innerHTML = multilineString;
+    }
 }
