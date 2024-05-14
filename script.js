@@ -84,6 +84,7 @@ function updateTimer() {
     // Display the formatted time
     document.getElementById('timer').innerHTML = minutes + ':' + seconds + ':' + milliseconds;
 
+    // Set high score if this round was the fastest yet
     if(finalTime < bestScore || bestScore == 0){
         bestScore = elapsedTime;
 
