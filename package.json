@@ -1,0 +1,18 @@
+{
+  "name": "reactiontimegame",
+  "version": "1.0.0",
+  "description": "reactionTimerGame",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "reaction",
+    "game"
+  ],
+  "author": "Jack Umina",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
