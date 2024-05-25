@@ -1,7 +1,7 @@
 # reactionTimeGame
 
 This is a game that test your reaction time (how quick you can hit the space bar). This is a stateful 'CRUD' game that gives me practice with restful API's. I am
-using node.js for the API and I am using ... as the database for this project.
+using node.js for the API and I am using neDB as the database for this project.
 
 How to run:
   - Download this repo
