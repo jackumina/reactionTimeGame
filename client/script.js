@@ -95,14 +95,17 @@ async function updateTimer() {
 
         // if timer is stopped send the best score to the database
         if(!started){
-            const data = { bestScore }
+            const data = { bestScore } // , access: 'true' 
             const options = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                timestamp: Date.now(),
                 body: JSON.stringify(data)
             };
+            // send the POST data to the database
+            // then store the response data and print in the console
             const response = await fetch('/api', options);
             const json = await response.json();
             console.log(json);
