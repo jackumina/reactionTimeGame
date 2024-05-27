@@ -8,7 +8,7 @@
     font-family: "Montserrat", sans-serif;
 }
 
-.title-div, .instructions-div, .start-button-div, .timer-div, .high-score-div {
+.title-div, .instructions-div, .start-button-div, .timer-div, .high-score-div, .reset-button-div {
     display: flex;
     justify-content: center;
     text-align: center;
@@ -30,10 +30,13 @@
     padding-top: 5%;
 }
 
+.reset-button-div {
+    padding-top: 1%;
+}
+
 .timer-div {
     padding-top: 5%;
 }
-
 
 .start-button {
     padding: 10px 15px;
@@ -41,4 +44,12 @@
     font-style: italic;
     cursor: pointer;
     outline: none; /* Remove default focus outline */
+}
+
+.reset-button {
+    padding: 5px 5px;
+    font-size: 10px;
+    font-style: italic;
+    cursor: pointer;
+    /* outline: none; Remove default focus outline */
 }
