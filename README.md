@@ -9,5 +9,11 @@ How to run:
   - Download this repo
   - Navigate to the usingJS or usingReact folder in the terminal
   - Type 'npm install' to download all the dependecies of this project
-  - Then type 'node index.js', the port number will appear on the next line
+
+  - Next in usingJS:
+  - Type 'node index.js', the port number will appear on the next line
   - Go to localhost:{port number}
+
+  - Next in usingReact:
+  - Navigate to reaction-time-game folder
+  - Type npm start, browser page at port: 3000 should appear for you
