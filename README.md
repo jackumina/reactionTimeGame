@@ -15,6 +15,8 @@ How to run:
 
   - usingReact
     - Download this repo
-    - Navigate to the usingReact folder in the terminal, then cd into reaction-time-game
-    - Type 'npm install' to download all the dependecies of this project
-    - Type npm start, browser page at port: 3000 should appear for you
+    - Navigate to the usingReact folder in the terminal
+    - cd into the server folder and type 'npm install' followed by 'node index.js'
+    - (if you want) Go to localhost:{port number}
+    - Then cd into the client folder and type 'npm install' followed by 'npm start'
+    - The browser page at port: 3000 should appear for you
