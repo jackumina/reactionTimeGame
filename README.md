@@ -16,7 +16,7 @@ How to run:
   - usingReact
     - Download this repo
     - Navigate to the usingReact folder in the terminal
-    - cd into the server folder and type 'npm install' followed by 'node index.js'
+    - cd into the server folder and type 'npm install' followed by 'npm start'
     - (if you want) Go to localhost:{port number}
     - Then cd into the client folder and type 'npm install' followed by 'npm start'
     - The browser page at port: 3000 should appear for you
