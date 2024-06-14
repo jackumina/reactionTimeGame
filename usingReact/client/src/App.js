@@ -1,32 +1,27 @@
-import {useEffect, useState} from 'react';
-import './App.css';
+import Header from './Header';
+import BestScore from './BestScore';
+import Timer from './Timer';
 
 function App() {
 
-  const [backendData, setBackendData] = useState(null);
-  const [isPending, setIsPending] = useState(true);
-
-  useEffect(() => {
-    fetch('/api').then(
-      response => response.json()
-    ).then(
-      data => {
-        setBackendData(data);
-        setIsPending(false);
-      }
-    );
-  }, [] );
-
+  // where does space bar on click code go?
+  
   return (
     <div className="App">
 
-      { isPending && <p>Loading...</p> }
-      { backendData && backendData.users.map((user, index) => (
-        <p key={index}>{user}</p>
-      )) }
+      <div className="header">
+        <Header />
+      </div>
+      <div className="bestScore">
+        <BestScore />
+      </div>
+      <div className="timer">
+        <Timer />
+      </div>
 
     </div>
   );
+
 }
 
 export default App;

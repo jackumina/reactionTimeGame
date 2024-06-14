@@ -1,13 +1,53 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.headerDiv, .bestScoreDiv, .resetButtonDiv, .timerDiv {
+  justify-content: center;
+  text-align: center;
+}
+
+.headerDiv {
+  padding-top: 15%;
+}
+
+.headerText h3 {
+  padding-top: 1%;
+}
+
+.startButtonDiv {
+  padding-top: 1.5%;
+}
+
+.bestScoreDiv {
+  padding-top: 5%;
+}
+
+.resetButtonDiv {
+  padding-top: 1%;
+}
+
+.timerDiv {
+  padding-top: 5%;
+}
+
+.startButton {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-style: italic;
+  cursor: pointer;
+  outline: none; /* Remove default focus outline */
+}
+
+.resetButton {
+  padding: 5px;
+  font-size: 10px;
+  font-style: italic;
+  cursor: pointer;
+  outline: none; /* Remove default focus outline */
 }

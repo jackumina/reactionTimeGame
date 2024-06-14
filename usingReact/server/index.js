@@ -2,11 +2,11 @@ const express = require('express');
 const Datastore = require('nedb');
 
 const app = express();
-app.listen(8080, () => console.log("app listening at port 8080"));
+const port = 8080;
+app.listen(port, () => console.log(`app listening at port ${port}`));
 
 const database = new Datastore('database.db');
 database.loadDatabase();
-// database.insert({ users: ['userOne', 'userTwo', 'userThree'] });
 
 // get data when loading or updating page
 app.get('/api', (req, res) => {
@@ -17,6 +17,7 @@ app.get('/api', (req, res) => {
             return;
         }
         res.json(data);
+        console.log(data);
     });
 });
 
@@ -35,7 +36,7 @@ app.put('/api', (req, res) => {
     const timestamp = Date.now();
     data.timestamp = timestamp;
 
-    database.update({}, { $set: { bestScore: data.bestScore, timeStamp: data.timeStamp } }, { multi: true }, (err, numReplaced) => {
+    database.update({}, { $set: {bestScore: data.bestScore, timeStamp: data.timeStamp} }, { multi: true }, (err, numReplaced) => {
         if(err) {
             return res.status(500).json({ message: 'Database error', error: err });
         }
@@ -49,6 +50,6 @@ app.delete('/api', (req, res) => {
         if(err){
             return res.status(500).json({ message: 'Database error', error: err });
         }
-        res.json({ message: `Successfully deleted ${numRemoved} items.` });
+        res.json({ message: `Successfully deleted ${numDeleted} items.` });
     });
 });
