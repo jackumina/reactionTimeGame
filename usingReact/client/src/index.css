@@ -51,3 +51,9 @@
   cursor: pointer;
   outline: none; /* Remove default focus outline */
 }
+
+.loadingTag {
+  text-align: center;
+  padding-top: 15%;
+  font-weight: bold;
+}
