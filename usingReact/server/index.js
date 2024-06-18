@@ -10,14 +10,17 @@ database.loadDatabase();
 
 // get data when loading or updating page
 app.get('/api', (req, res) => {
+    console.log('in here');
     database.find({}, (err, data) => {
+        console.log('in here 2');
+        // console.log(data);
         if(err){
             res.end();
             console.log(err);
             return;
         }
         res.json(data);
-        console.log(data);
+        // console.log(data);
     });
 });
 
