@@ -1,7 +1,12 @@
 const express = require('express');
 const Datastore = require('nedb');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+
 const port = 8080;
 app.listen(port, () => console.log(`app listening at port ${port}`));
 
@@ -10,40 +15,33 @@ database.loadDatabase();
 
 // get data when loading or updating page
 app.get('/api', (req, res) => {
-    console.log('in here');
     database.find({}, (err, data) => {
-        console.log('in here 2');
-        // console.log(data);
         if(err){
             res.end();
             console.log(err);
             return;
         }
         res.json(data);
-        // console.log(data);
+        console.log(data);
     });
 });
 
 // creating data after a reset
 app.post('/api', (req, res) => {
     const data = req.body;
-    const timestamp = Date.now();
-    data.timestamp = timestamp;
     database.insert(data);
-    res.json(data);
+    res.json({ message: 'item posted', data });
 });
 
 // updating data after a new high score
 app.put('/api', (req, res) => {
     const data = req.body;
-    const timestamp = Date.now();
-    data.timestamp = timestamp;
 
     database.update({}, { $set: {bestScore: data.bestScore, timeStamp: data.timeStamp} }, { multi: true }, (err, numReplaced) => {
         if(err) {
             return res.status(500).json({ message: 'Database error', error: err });
         }
-        res.json({ message: numReplaced + ' item put', item: data });
+        res.json({ message: numReplaced + ' item put', data });
     });
 });
 
