@@ -3,7 +3,7 @@ This is a game that test your reaction time (how quick you can hit the space bar
 
 This repo holds two projects, both run a reactionTimerGame. 
 - usingJS- folder holds the game implemented with node.js as the API and NeDB (noSql) for the database with normal html, css, and javascript files to run the client side code.
-- usingReact- folder holds the game to implemented with node.js as the API, NeDB, and React.js for the client side code. This project was pretty challening learning some new syntax and how react works, specifically, useEffect and how it passes around state took a bit of figuring out, so this code isn't as clean as it could/ should be.
+- usingReact- folder holds the game to implemented with node.js as the API, NeDB, and React.js for the client side code. This project was pretty challening learning some new syntax and how react works, specifically, useEffect and how it passes around state took a bit of figuring out, so the client code in the Home.js file isn't as clean as it could/ should be.
 
 How to run:
   - usingJS
