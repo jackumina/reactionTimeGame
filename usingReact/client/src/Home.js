@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-// import axios from 'axios';
+import axios from 'axios';
 
 const Home = () => {
 
@@ -12,16 +12,19 @@ const Home = () => {
     const [bestScore, setBestScore] = useState(0);
     const [dbEmpty, setDbEmpty] = useState(false);
     const [bestScoreIsZero, setBestScoreIsZero] = useState(false);
-
+    const [firstRun, setFirstRun] = useState(true);
     const [dataFetched, setDataFetched] = useState(false);
+    const [justReset, setJustReset] = useState(false);
 
 
+    // get data from api on page reload
     useEffect(() => {
         const fetchData = async () => {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 5000); // 5000ms = 5 seconds
-    
+
             try {
+
                 const response = await fetch('/api', { signal: controller.signal });
                 clearTimeout(timeoutId); // Clear the timeout if the fetch is successful
         
@@ -31,18 +34,18 @@ const Home = () => {
         
                 const data = await response.json();
                 if (data && data.length > 0) {
-                    setBestScore(makeTimeString(data.bestScore));
+                    const item = data[0];
+                    setBestScore(item.bestScore);
                 } else {
                     setDbEmpty(true);
                     setBestScoreIsZero(true);
                 }
-                
-                setDataFetched(true);
 
+                setDataFetched(true);
+                
             } catch (error) {
                 if (error.name === 'AbortError') {
                     console.error('Fetch aborted due to timeout');
-                    alert('Fetch aborted due to timeout \n Please refresh page');
                 } else {
                     console.error('Error fetching data:', error);
                 }
@@ -52,83 +55,61 @@ const Home = () => {
         fetchData();
     }, []);
 
+    // useEffect to post or put data when currentScore < bestScore
     useEffect(() => {
-        let time;
-        console.log(bestScore);
-        if(isRunning){
-          time = setInterval(() => {
-            setCurrentTime(prevTime => prevTime + 1);
-            if(bestScoreIsZero){
-                console.log('in here');
-                setBestScore(prevTime => prevTime + 1);
-            }
-          }, 1);
-        }
     
-        // console.log('Timer is at:', currentTime);
-        // if(currentTime < bestScore || bestScoreIsZero){
-        //     setBestScore(currentTime);
-        //     setBestScoreIsZero(false);
-        //     // sendBestScore();
-        // }
-        // console.log('bestScore is: ' + bestScore);
+        const sendData = async (method) => {
+            console.log('justReset: ' + justReset);
+            if(!isRunning && !bestScoreIsZero && !firstRun && !justReset){
+                const data = { bestScore, timeStamp: Date.now() };
+                console.log('Sending data:', data);
 
-        return () => {
-            clearInterval(time);
+                try {
+                    const response = await axios({
+                        method: method,
+                        url: '/api',
+                        data
+                    });
+                    console.log('Success:', response.data);
+                    setDbEmpty(false);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
         };
-    }, [isRunning, currentTime, bestScore, bestScoreIsZero]);
-
-    const sendBestScore = async () => {
-        
-        // if (currentTime < bestScore || bestScore === 0) {
-        //     // setBestScore(finalTime);
-        //     const method = dbEmpty ? 'post' : 'put';
-        //     // sendData(method);
-        //     console.log(method);
-        // }
 
         const method = dbEmpty ? 'post' : 'put';
         sendData(method);
-        console.log(method);
 
-        const sendData = async (method) => {
-            // const data = { bestScore, timeStamp: Date.now() };
-            // console.log(data);
+    }, [bestScore, dbEmpty, bestScoreIsZero, isRunning, firstRun, justReset]);
 
-            // try {
-            //     const response = await axios({
-            //     method: method,
-            //     url: '/api',
-            //     data: data,
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     });
-            //     console.log('Success:', response.data);
-            // } catch (error) {
-            //     console.error('Error:', error);
-            // }
 
-            // setDbEmpty(false);
-        };
+    // function to delete data when reset button is clicked
+    const resetButtonClicked = async () => {
+        const response = await axios.delete('/api');
+        console.log(response.data);
+        setBestScore(0);
+        setBestScoreIsZero(true);
+        setDbEmpty(true);
+        setFirstRun(true);
+        setJustReset(true);
     };
 
-    // start on click function (just changes layout then sends signal to start timer?)
+
+
+    // start on click function
     const startTimer = () => {
 
         setIsRunning(true);
         setCurrentTime(0);
-        // setBestScore(100);
-        // startTimer();
-        setIsDisabled(true); // Disable the button
+        setIsDisabled(true); // Disable the start button
         
         if (buttonRef.current) {
-            buttonRef.current.blur(); // Blur the button
+            buttonRef.current.blur(); // Blur the last clicked button
         }
 
         // apply green background color to body
         document.body.style.backgroundColor = '#00A36C';
-
         // make text white
         setColor('white');
     };
@@ -140,15 +121,50 @@ const Home = () => {
 
                 setIsRunning(false);
                 setIsDisabled(false);
+                
+                if(justReset){
+                    setJustReset(false);
+                }
 
                 document.body.style.backgroundColor = 'white';
                 setColor('black');
             }
         }
-    }
-
+    };
     // Add event listener for keydown
     window.addEventListener('keydown', stopTimer);
+
+
+
+    // timer and bestScore setter useEffects
+    useEffect(() => {
+        let timer;
+        if (isRunning) {
+            timer = setInterval(() => {
+                setCurrentTime(prevTime => prevTime + 1);
+                if (bestScoreIsZero && firstRun) {
+                    setBestScore(prevTime => prevTime + 1);
+                }
+            }, 1);
+        } else {
+          clearInterval(timer);
+        }
+    
+        return () => clearInterval(timer);
+    }, [isRunning, bestScore, firstRun, bestScoreIsZero]);
+    
+    useEffect(() => {
+        if (!isRunning && currentTime > 0 && !justReset) {
+            if (bestScore === 0 || currentTime < bestScore) {
+                setBestScore(currentTime);
+            }
+            if (firstRun) {
+                setFirstRun(false); // After the first run, mark it as false
+                setBestScoreIsZero(false);
+            }
+        }
+    }, [isRunning, currentTime, bestScore, firstRun, justReset]);
+
 
 
     return (
@@ -180,7 +196,7 @@ const Home = () => {
                         </div>
                         <div className="resetButtonDiv">
                             <button className="resetButton" ref={buttonRef}
-                                disabled={isDisabled}>Reset Score</button>
+                                onClick={resetButtonClicked} disabled={isDisabled}>Reset Score</button>
                         </div>
                     </div>
 
